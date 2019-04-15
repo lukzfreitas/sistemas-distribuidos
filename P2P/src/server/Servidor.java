@@ -1,5 +1,7 @@
 package server;
 
+import criptografia.Criptografia;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
@@ -47,6 +49,7 @@ class PeerConnect implements Runnable {
         Boolean condition = true;
         String check = "";
         Scanner sc = new Scanner(System.in);
+        Criptografia criptografia = new Criptografia();
 
         while (condition) {
             try {
@@ -70,7 +73,7 @@ class PeerConnect implements Runnable {
                         File[] sharedFiles = peerDirectory.listFiles();
 
                         for (int i = 0; i < sharedFiles.length; i++) {
-                            registry(peerId, sharedFiles[i].getName());
+                            registry(peerId, criptografia.encriptar(sharedFiles[i].getName()));
                         }
                         serverOut.println(option);
                         break;
@@ -78,7 +81,7 @@ class PeerConnect implements Runnable {
                     // Localizar arquivo
                     case "2":
                         fileName = serverIn.nextLine();
-                        fileLocation = lookup(fileName);
+                        fileLocation = lookup(criptografia.encriptar(fileName));
                         try {
                             for (int i = 0; i < fileLocation.size(); i++) {
                                 location += fileLocation.get(i) + " ";
