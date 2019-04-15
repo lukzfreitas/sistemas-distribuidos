@@ -9,14 +9,19 @@ public class Cliente {
 
     public static void main(String[] args) {
 
+
+        Scanner sc = new Scanner(System.in);
         String diretorio = ".";
 
+        System.out.println("Insira o ip do server");
+        String ip = sc.nextLine();
+
         try {
-            String option, check, fileSearch, fileDownload, clientId;
-            Socket clientSocket = new Socket("localhost", 5004);
+            String option, check, fileSearch;
+            Socket clientSocket = new Socket(ip, 5004);
 
             int peerId = Integer.parseInt("1100");
-            Scanner sc = new Scanner(System.in);
+            sc = new Scanner(System.in);
             Scanner clientIn = new Scanner(clientSocket.getInputStream());
 
             Thread t1 = new Thread(new PeerFileDownload(diretorio, peerId));
@@ -71,11 +76,13 @@ public class Cliente {
 
                         System.out.println("digite o endereço do cliente:");
                         String host = sc.nextLine();
-//                        clientOut.println(host);
 
                         System.out.println("digite o nome do arquivo para download:");
                         String arquivoParaDownload = sc.nextLine();
-//                        clientOut.println(arquivoParaDownload);
+
+                        System.out.println("digite o nome do arquivo para ser salvo:");
+                        String nomeDoArquivoSalvo = sc.nextLine();
+
 
 //                         Caixa de dialog para escolher pasta para download
                         JFileChooser escolherPastaDownload = new JFileChooser();
@@ -83,7 +90,7 @@ public class Cliente {
                         res = escolherPastaDownload.showOpenDialog(null);
                         String filePathDownload = escolherPastaDownload.getSelectedFile().getAbsolutePath();
 
-                        retrieve(arquivoParaDownload, filePathDownload, "1100", host);
+                        retrieve(arquivoParaDownload, filePathDownload, "1100", host, nomeDoArquivoSalvo);
 
                         check = clientIn.nextLine();
                         break;
@@ -101,7 +108,7 @@ public class Cliente {
         }
     }
 
-    public static void retrieve(String fileName, String downPath, String clientId, String host) {
+    public static void retrieve(String fileName, String downPath, String clientId, String host, String nomeNovoArquivo) {
 
         //Make a connection with server to get file from
         int portNumber = Integer.parseInt(clientId);
@@ -123,7 +130,7 @@ public class Cliente {
             int newBuffSize = (int) buffSize;
 
             byte[] b = new byte[newBuffSize];
-            String filePath = downPath + "\\" + "novoArquivo.txt";
+            String filePath = downPath + "\\" + nomeNovoArquivo;
             //Write the file requested by the peer
             FileOutputStream writeFileStream = new FileOutputStream(filePath);
 
