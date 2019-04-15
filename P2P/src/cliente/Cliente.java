@@ -1,11 +1,7 @@
 package cliente;
 
-import criptografia.Criptografia;
 import javax.swing.*;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.PrintStream;
+import java.io.*;
 import java.net.Socket;
 import java.util.Scanner;
 
@@ -13,16 +9,13 @@ public class Cliente {
 
     public static void main(String[] args) {
 
-//        Criptografia criptografia = new Criptografia();
-//        String cripto = criptografia.encriptar("Camila");
-//        System.out.println(cripto);
-//        String descripto = criptografia.decriptar(cripto);
-//        System.out.printf(descripto);
 
-        JFileChooser escolherDiretorio = new JFileChooser();
-        escolherDiretorio.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-        int res = escolherDiretorio.showOpenDialog(null);
-        String diretorio = escolherDiretorio.getSelectedFile().getAbsolutePath();
+//        JFileChooser escolherDiretorio = new JFileChooser();
+//        escolherDiretorio.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+//        int res = escolherDiretorio.showOpenDialog(null);
+//        String diretorio = escolherDiretorio.getSelectedFile().getAbsolutePath();
+
+        String diretorio = ".";
 
         try {
             String option, check, fileSearch, fileDownload, clientId;
@@ -76,7 +69,7 @@ public class Cliente {
                         // Caixa de dialog para escolher pasta para download
                         JFileChooser escolherPastaDownload = new JFileChooser();
                         escolherPastaDownload.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-                        res = escolherPastaDownload.showOpenDialog(null);
+                        int res = escolherPastaDownload.showOpenDialog(null);
                         String filePathDownload = escolherPastaDownload.getSelectedFile().getAbsolutePath();
 
                         retrieve(fileDownload, filePathDownload, "1100");

@@ -20,6 +20,7 @@ public class Servidor {
         try {
             ServerSocket socket = new ServerSocket(5004);
             System.out.println("Servidor conectado!!!");
+
             while (true) {
                 Socket serverSocket = socket.accept();
                 Thread thread = new Thread(new PeerConnect(serverSocket));
@@ -50,7 +51,6 @@ class PeerConnect implements Runnable {
         String check = "";
         Scanner sc = new Scanner(System.in);
         Criptografia criptografia = new Criptografia();
-
         while (condition) {
             try {
                 String peerId, fileName, searchResult, error, checkId;
