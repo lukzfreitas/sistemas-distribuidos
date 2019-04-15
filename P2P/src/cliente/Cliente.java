@@ -31,7 +31,7 @@ public class Cliente {
             do {
                 System.out.println("****MENU****");
                 System.out.println("1. Registrar arquivos");
-                System.out.println("2. Procurar por arquivo");
+                System.out.println("2. Procurar por arquivo em cliente host");
                 System.out.println("3. Download de arquivo");
                 System.out.println("4. Sair");
 
@@ -53,7 +53,7 @@ public class Cliente {
                     case "2": // Localizar arquivo
 
                         clientOut.println(option);
-                        System.out.println("digite o nome do arquivo: ");
+                        System.out.println("digite o endereço do cliente: ");
                         fileSearch = sc.nextLine();
                         clientOut.println(fileSearch);
                         check = clientIn.nextLine();
@@ -61,18 +61,23 @@ public class Cliente {
                         break;
 
                     case "3": // Realizar download de arquivo
-
                         clientOut.println(option);
-                        System.out.println("digite o nome do arquivo para download:");
-                        fileDownload = sc.nextLine();
 
-                        // Caixa de dialog para escolher pasta para download
+                        System.out.println("digite o endereço do cliente:");
+                        String host = sc.nextLine();
+//                        clientOut.println(host);
+
+                        System.out.println("digite o nome do arquivo para download:");
+                        String arquivoParaDownload = sc.nextLine();
+//                        clientOut.println(arquivoParaDownload);
+
+//                         Caixa de dialog para escolher pasta para download
                         JFileChooser escolherPastaDownload = new JFileChooser();
                         escolherPastaDownload.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
                         int res = escolherPastaDownload.showOpenDialog(null);
                         String filePathDownload = escolherPastaDownload.getSelectedFile().getAbsolutePath();
 
-                        retrieve(fileDownload, filePathDownload, "1100");
+                        retrieve(arquivoParaDownload, filePathDownload, "1100", host);
 
                         check = clientIn.nextLine();
                         break;
@@ -90,13 +95,13 @@ public class Cliente {
         }
     }
 
-    public static void retrieve(String fileName, String downPath, String clientId) {
+    public static void retrieve(String fileName, String downPath, String clientId, String host) {
 
         //Make a connection with server to get file from
         int portNumber = Integer.parseInt(clientId);
 
         try {
-            Socket peerClient = new Socket("localhost", portNumber);
+            Socket peerClient = new Socket(host, portNumber);
             System.out.println("baixando o arquivo ...");
 
             //Input & Output for socket Communication

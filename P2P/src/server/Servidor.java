@@ -78,20 +78,20 @@ class PeerConnect implements Runnable {
                         serverOut.println(option);
                         break;
 
-                    // Localizar arquivo
+                    // Localizar arquivo de determinado cliente
                     case "2":
-                        fileName = serverIn.nextLine();
-                        fileLocation = lookup(criptografia.encriptar(fileName));
+                        String hostCliente = serverIn.nextLine();
+                        ArrayList<String> arquivos = lookup(hostCliente);
+                        String nomeDosArquivos = "";
                         try {
-                            for (int i = 0; i < fileLocation.size(); i++) {
-                                location += fileLocation.get(i) + " ";
+
+                            for (int i = 0; i < arquivos.size(); i++) {
+                                nomeDosArquivos += i+1 + " " +criptografia.decriptar(arquivos.get(i)) + " ";
                             }
-                            searchResult = "O arquivo está presente na: " + location;
-                            System.out.println(location);
-                            serverOut.println(searchResult);
+                            serverOut.println(nomeDosArquivos);
 
                         } catch (Exception e) {
-                            error = "Arquivo não registrado";
+                            error = hostCliente + " não conectado";
                             serverOut.println(error);
                         }
                         break;
@@ -123,26 +123,26 @@ class PeerConnect implements Runnable {
         ArrayList<String> peerList = new ArrayList<String>();
         ArrayList<String> checkList = new ArrayList<String>();
 
-        peerList.add(peerId);
-        checkList = fileMap.get(fileName);
+        peerList.add(fileName);
+        checkList = fileMap.get(clientSocket.getInetAddress().getHostAddress());
 
         if (checkList == null || checkList.isEmpty()) {
-            fileMap.put(fileName, peerList);
+            fileMap.put(clientSocket.getInetAddress().getHostAddress(), peerList);
         } else {
             for (int i = 0; i < checkList.size(); i++) {
-                if (checkList.get(i).equals(peerId)) {
+                if (checkList.get(i).equals(fileName)) {
                     checkList.remove(i);
                 }
             }
-            checkList.add(peerId);
-            fileMap.put(fileName, checkList);
+            checkList.add(fileName);
+            fileMap.put(clientSocket.getInetAddress().getHostAddress(), checkList);
         }
     }
 
-    public ArrayList<String> lookup(String fileName) throws IOException {
+    public ArrayList<String> lookup(String hostCliente) throws IOException {
 
         ArrayList<String> peerList = new ArrayList<String>();
-        peerList = fileMap.get(fileName);
+        peerList = fileMap.get(hostCliente);
         return peerList;
 
     }
