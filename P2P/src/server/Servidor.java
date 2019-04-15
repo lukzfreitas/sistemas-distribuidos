@@ -53,27 +53,21 @@ class PeerConnect implements Runnable {
         Criptografia criptografia = new Criptografia();
         while (condition) {
             try {
-                String peerId, fileName, searchResult, error, checkId;
+                String error;
                 String option;
-
-                String location = "";
-                ArrayList<String> fileLocation = new ArrayList<String>();
 
                 Scanner serverIn = new Scanner(clientSocket.getInputStream());
                 PrintStream serverOut = new PrintStream(clientSocket.getOutputStream());
-
-                peerId = serverIn.nextLine();
 
                 option = serverIn.nextLine();
                 switch (option) {
 
                     // Registrar arquivos
                     case "1":
-                        File peerDirectory = new File(peerId);
-                        File[] sharedFiles = peerDirectory.listFiles();
-
-                        for (int i = 0; i < sharedFiles.length; i++) {
-                            registry(peerId, criptografia.encriptar(sharedFiles[i].getName()));
+                        String nomeArquivos = serverIn.nextLine();
+                        String[] arquivosParaRegistrar = nomeArquivos.split(",");
+                        for (int i = 0; i < arquivosParaRegistrar.length; i++) {
+                            registry(criptografia.encriptar(arquivosParaRegistrar[i]));
                         }
                         serverOut.println(option);
                         break;
@@ -118,7 +112,7 @@ class PeerConnect implements Runnable {
     /*
      * Register function - To register file present with each peer
      */
-    public void registry(String peerId, String fileName) throws IOException {
+    public void registry(String fileName) throws IOException {
 
         ArrayList<String> peerList = new ArrayList<String>();
         ArrayList<String> checkList = new ArrayList<String>();

@@ -9,12 +9,6 @@ public class Cliente {
 
     public static void main(String[] args) {
 
-
-//        JFileChooser escolherDiretorio = new JFileChooser();
-//        escolherDiretorio.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-//        int res = escolherDiretorio.showOpenDialog(null);
-//        String diretorio = escolherDiretorio.getSelectedFile().getAbsolutePath();
-
         String diretorio = ".";
 
         try {
@@ -38,13 +32,25 @@ public class Cliente {
                 option = sc.nextLine();
 
                 PrintStream clientOut = new PrintStream(clientSocket.getOutputStream());
-                clientOut.println(diretorio);
 
                 switch (option) {
 
                     case "1": // Registrar arquivos
-
                         clientOut.println(option);
+
+                        JFileChooser escolherDiretorio = new JFileChooser();
+                        escolherDiretorio.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+                        int res = escolherDiretorio.showOpenDialog(null);
+                        diretorio = escolherDiretorio.getSelectedFile().getAbsolutePath();
+
+                        File peerDirectory = new File(diretorio);
+                        File[] sharedFiles = peerDirectory.listFiles();
+                        String hashArquivos = "";
+                        for (int i = 0; i < sharedFiles.length; i++) {
+                            hashArquivos += sharedFiles[i].getAbsolutePath() + ",";
+                        }
+                        clientOut.println(hashArquivos);
+
                         System.out.println("Registrando arquivos. Aguarde!!!");
                         check = clientIn.nextLine();
                         System.out.println("Arquivos registrados!!!");
@@ -74,7 +80,7 @@ public class Cliente {
 //                         Caixa de dialog para escolher pasta para download
                         JFileChooser escolherPastaDownload = new JFileChooser();
                         escolherPastaDownload.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-                        int res = escolherPastaDownload.showOpenDialog(null);
+                        res = escolherPastaDownload.showOpenDialog(null);
                         String filePathDownload = escolherPastaDownload.getSelectedFile().getAbsolutePath();
 
                         retrieve(arquivoParaDownload, filePathDownload, "1100", host);
@@ -117,7 +123,7 @@ public class Cliente {
             int newBuffSize = (int) buffSize;
 
             byte[] b = new byte[newBuffSize];
-            String filePath = downPath + "\\" + fileName;
+            String filePath = downPath + "\\" + "novoArquivo.txt";
             //Write the file requested by the peer
             FileOutputStream writeFileStream = new FileOutputStream(filePath);
 

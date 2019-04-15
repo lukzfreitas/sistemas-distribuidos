@@ -42,7 +42,7 @@ public class PeerFileDownload implements Runnable
 				PrintStream peerOut = new PrintStream(peerSocket.getOutputStream());
 				peerOut.println(peerSocket.getInetAddress().getHostAddress());
 
-				File checkFile = new File(fileDownloadPath + "/" + fileName);
+				File checkFile = new File(fileName);
 
 				FileInputStream fin = new FileInputStream(checkFile);
 				BufferedInputStream buffReader = new BufferedInputStream(fin);
