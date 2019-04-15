@@ -106,6 +106,8 @@ public class Cliente {
             peerOut.println(fileName);
             peerOut.println(clientId);
 
+            System.out.println("endereço do recurso baixado: " + peerIn.nextLine());
+
             long buffSize = peerIn.nextLong();
             int newBuffSize = (int) buffSize;
 
@@ -117,8 +119,7 @@ public class Cliente {
             writeFileStream.write(b);
             writeFileStream.close();
 
-            System.out.println("Arquivo baixado com sucesso");
-            System.out.println("Display file " + fileName);
+            System.out.println("Arquivo " + fileName +" baixado com sucesso");
 
             peerClient.close();
 

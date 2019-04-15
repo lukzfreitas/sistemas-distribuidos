@@ -37,11 +37,13 @@ public class PeerFileDownload implements Runnable
 
 				//get the fileName from ClientAskingForFile
 				String fileName = in.nextLine();
-				System.out.println("Requested file is: "+fileName);
 				String peerForFile = in.nextLine();
 
+				PrintStream peerOut = new PrintStream(peerSocket.getOutputStream());
+				peerOut.println(peerSocket.getInetAddress().getHostAddress());
+
 				File checkFile = new File(fileDownloadPath + "/" + fileName);
-				
+
 				FileInputStream fin = new FileInputStream(checkFile);
 				BufferedInputStream buffReader = new BufferedInputStream(fin);
 				
@@ -55,7 +57,7 @@ public class PeerFileDownload implements Runnable
 				//get the file size, as the buffer needs to be allocated an initial size
 				int size = (int) checkFile.length();	//convert from long to int
 				byte[] buffContent = new byte[size];
-				System.out.println("tamanho do arquivo" + size);
+
 				//send file size
 				out.println(size);
 				
