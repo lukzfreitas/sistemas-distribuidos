@@ -67,7 +67,7 @@ class PeerConnect implements Runnable {
                         String nomeArquivos = serverIn.nextLine();
                         String[] arquivosParaRegistrar = nomeArquivos.split(",");
                         for (int i = 0; i < arquivosParaRegistrar.length; i++) {
-                            registry(criptografia.encriptar(arquivosParaRegistrar[i]));
+                            registry(arquivosParaRegistrar[i]);
                         }
                         serverOut.println(option);
                         break;
@@ -80,7 +80,7 @@ class PeerConnect implements Runnable {
                         try {
 
                             for (int i = 0; i < arquivos.size(); i++) {
-                                nomeDosArquivos += i+1 + " " +criptografia.decriptar(arquivos.get(i)) + " ";
+                                nomeDosArquivos += i+1 + " " +arquivos.get(i) + " ";
                             }
                             serverOut.println(nomeDosArquivos);
 
