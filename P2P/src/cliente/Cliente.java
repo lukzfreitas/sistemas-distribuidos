@@ -13,7 +13,7 @@ public class Cliente {
         Scanner sc = new Scanner(System.in);
         String diretorio = ".";
 
-        System.out.println("Insira o ip do server");
+        System.out.println("Insira o endereço ip do servidor");
         String ip = sc.nextLine();
 
         try {
@@ -83,19 +83,15 @@ public class Cliente {
                         System.out.println("digite o nome do arquivo para ser salvo:");
                         String nomeDoArquivoSalvo = sc.nextLine();
 
-
-//                         Caixa de dialog para escolher pasta para download
                         JFileChooser escolherPastaDownload = new JFileChooser();
                         escolherPastaDownload.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
                         res = escolherPastaDownload.showOpenDialog(null);
                         String filePathDownload = escolherPastaDownload.getSelectedFile().getAbsolutePath();
 
                         retrieve(arquivoParaDownload, filePathDownload, "1100", host, nomeDoArquivoSalvo);
-
-                        check = clientIn.nextLine();
                         break;
 
-                    case "4": // exit case
+                    case "4": // Sair
 
                         clientOut.println(option);
                         System.out.println("Cliente encerrado!!");

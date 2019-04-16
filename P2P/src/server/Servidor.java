@@ -1,16 +1,13 @@
 package server;
 
-import criptografia.Criptografia;
+//import criptografia.Criptografia;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.ListIterator;
 import java.util.Scanner;
 
 
@@ -38,9 +35,8 @@ class PeerConnect implements Runnable {
     public static HashMap<String, ArrayList<String>> fileMap = new HashMap<String, ArrayList<String>>();
 
     public Socket clientSocket;
-    int count = 0;
 
-    public PeerConnect(Socket socket) throws IOException {
+    public PeerConnect(Socket socket) {
         this.clientSocket = socket;
     }
 
@@ -48,9 +44,7 @@ class PeerConnect implements Runnable {
     public void run() {
 
         Boolean condition = true;
-        String check = "";
-        Scanner sc = new Scanner(System.in);
-        Criptografia criptografia = new Criptografia();
+        //Criptografia criptografia = new Criptografia();
         while (condition) {
             try {
                 String error;
@@ -67,7 +61,7 @@ class PeerConnect implements Runnable {
                         String nomeArquivos = serverIn.nextLine();
                         String[] arquivosParaRegistrar = nomeArquivos.split(",");
                         for (int i = 0; i < arquivosParaRegistrar.length; i++) {
-                            registry(arquivosParaRegistrar[i]);
+                            registrar(arquivosParaRegistrar[i]);
                         }
                         serverOut.println(option);
                         break;
@@ -75,7 +69,7 @@ class PeerConnect implements Runnable {
                     // Localizar arquivo de determinado cliente
                     case "2":
                         String hostCliente = serverIn.nextLine();
-                        ArrayList<String> arquivos = lookup(hostCliente);
+                        ArrayList<String> arquivos = localizar(hostCliente);
                         String nomeDosArquivos = "";
                         try {
 
@@ -109,10 +103,7 @@ class PeerConnect implements Runnable {
         }
     }
 
-    /*
-     * Register function - To register file present with each peer
-     */
-    public void registry(String fileName) throws IOException {
+    public void registrar(String fileName)  {
 
         ArrayList<String> peerList = new ArrayList<String>();
         ArrayList<String> checkList = new ArrayList<String>();
@@ -133,7 +124,7 @@ class PeerConnect implements Runnable {
         }
     }
 
-    public ArrayList<String> lookup(String hostCliente) throws IOException {
+    public ArrayList<String> localizar(String hostCliente) {
 
         ArrayList<String> peerList = new ArrayList<String>();
         peerList = fileMap.get(hostCliente);
